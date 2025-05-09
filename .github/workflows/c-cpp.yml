@@ -13,5 +13,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: cd sources && make
-      run: make
+    - name: make
+      run: cd sources && make
