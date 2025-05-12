@@ -13,8 +13,6 @@
 #			Intel 32-bit and 64-bit)
 #
 
-CFLAGS_PPC= -O3 -prebind -mmacosx-version-min=10.4 -mtune=G4 -arch ppc
-CFLAGS_I386= -O3 -prebind -mmacosx-version-min=10.4 -arch i386
 CFLAGS_X86_64= -O3 -prebind -mmacosx-version-min=10.4 -arch x86_64 
 LIBS= -framework IOKit -framework CoreFoundation
 
@@ -22,24 +20,13 @@ BINDIR=/usr/local/sbin
 MANDIR=/usr/local/man
 
 sleepwatcher: sleepwatcher.c
-	$(CC) $(CFLAGS_I386) -o sleepwatcher.i386 sleepwatcher.c $(LIBS)
-	$(CC) $(CFLAGS_X86_64) -o sleepwatcher.x86_64 sleepwatcher.c $(LIBS)
-	lipo -create sleepwatcher.i386 sleepwatcher.x86_64 -output sleepwatcher
-	rm sleepwatcher.i386 sleepwatcher.x86_64
+	$(CC) $(CFLAGS_X86_64) -o sleepwatcher sleepwatcher.c $(LIBS)
 
-fat: sleepwatcher sleepwatcher.ppc
-	lipo -create sleepwatcher sleepwatcher.ppc -output sleepwatcher.fat
-	mv sleepwatcher.fat sleepwatcher
-	rm sleepwatcher.ppc
-
-sleepwatcher.ppc: sleepwatcher.c
-	$(CC) $(CFLAGS_PPC) -o sleepwatcher.ppc sleepwatcher.c $(LIBS)
-
-install: sleepwatcher sleepwatcher.8
+install: sleepwatcher ../sleepwatcher.8
 	mkdir -p $(BINDIR)
-	install -o root -g wheel -m 755 sleepwatcher $(BINDIR)
+	install -m 755 sleepwatcher $(BINDIR)
 	mkdir -p $(MANDIR)/man8
-	install -o root -g wheel -m 644 sleepwatcher.8 $(MANDIR)/man8
+	install -m 644 ../sleepwatcher.8 $(MANDIR)/man8
 
 clean:
 	rm -f sleepwatcher
