@@ -13,7 +13,7 @@
 #			Intel 32-bit and 64-bit)
 #
 
-CFLAGS_X86_64= -O3 -prebind -mmacosx-version-min=10.4 -arch x86_64 
+CFLAGS_X86_64= -O3 -arch x86_64 
 LIBS= -framework IOKit -framework CoreFoundation
 
 BINDIR=/usr/local/sbin
